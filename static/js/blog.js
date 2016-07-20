@@ -11,5 +11,9 @@ $(document).ready(function(){
             $("a.active").removeClass("active");
             $("a.signup-nav-item").addClass("active");
             break;
+        case "/admin":
+            $("a.active").removeClass("active");
+            $("a.admin-nav-item").addClass("active");
+            break;
     }
 });

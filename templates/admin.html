@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block link %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <h2>Data Charts</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <canvas id="barChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="pieChart" width="400" height="400"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="static/js/admin.js"></script>
+{% endblock %}

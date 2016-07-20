@@ -126,3 +126,12 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+/*
+*admin canvas charts
+*/
+canvas{
+    margin-top: 20px;
+    border: solid 1px;
+    width: 100%;
+    height: 100%;
+}
