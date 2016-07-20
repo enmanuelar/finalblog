@@ -68,6 +68,7 @@
 */
 
 .blog-main {
+    padding: 10px;
     margin-top: 20px;
     font-size: 18px;
     line-height: 1.5;
@@ -86,6 +87,13 @@
 .blog-post-meta {
     margin-bottom: 20px;
     color: #999;
+}
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
 }
 
 /*
@@ -127,7 +135,7 @@
   border-top-right-radius: 0;
 }
 /*
-*admin canvas charts
+*admin canvas charts and admin panels
 */
 canvas{
     margin-top: 20px;
@@ -135,3 +143,27 @@ canvas{
     width: 100%;
     height: 100%;
 }
+
+.manage-posts, .top-posts-tags{
+    margin-top: 20px;
+    border-top: solid 1px;
+}
+
+.admin-post-list{
+    font-size: 18px;
+    font-weight: normal;
+}
+
+/*
+ * Footer
+ */
+
+.blog-footer {
+    margin-top: 20px;
+    padding: 40px 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid;
+}
+
