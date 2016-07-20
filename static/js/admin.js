@@ -70,4 +70,13 @@ $(document).ready(function(){
             }
         }
     });
+
+    //Manage post list
+    $('#manage-post-list').hideMaxListItems({
+        'max':3,
+        'speed':500,
+        'moreText':'SHOW MORE',
+        'lessText':'SHOW LESS',
+        'moreHTML': '<p class="maxlist-more"><a href="#">MORE OF THEM</a></p>'
+    });
 });

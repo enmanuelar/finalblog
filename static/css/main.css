@@ -154,6 +154,24 @@ canvas{
     font-weight: normal;
 }
 
+/* READ MORE BUTTON */
+.maxlist-more {
+    padding-left: 26px;
+    font-weight: bold;
+}
+
+.maxlist-more a {
+    text-decoration:none;
+    border-bottom: 1px dotted #67afca;
+    color: #67afca;
+}
+
+.maxlist-more a:hover {
+    text-decoration:none;
+    border-color: #5591aa;
+    color: #5591aa;
+}
+
 /*
  * Footer
  */
