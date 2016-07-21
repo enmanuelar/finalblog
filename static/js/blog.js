@@ -15,6 +15,10 @@ $(document).ready(function(){
             $("a.active").removeClass("active");
             $("a.login-nav-item").addClass("active");
             break;
+        case "/newpost":
+            $("a.active").removeClass("active");
+            $("a.newpost-nav-item").addClass("active");
+            break;
         case "/admin":
             $("a.active").removeClass("active");
             $("a.admin-nav-item").addClass("active");
@@ -57,4 +61,5 @@ $(document).ready(function(){
         $(this).prev().toggle();
         return false;
     });
+
 });

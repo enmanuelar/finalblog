@@ -43,6 +43,10 @@ class LoginHandler(Handler):
     def get(self):
         self.render("login.html")
 
+class NewpostHandler(Handler):
+    def get(self):
+        self.render("newpost.html")
+
 class AdminHandler(Handler):
     def get(self):
         self.render("admin.html")
@@ -51,5 +55,6 @@ app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
+    ('/newpost', NewpostHandler),
     ('/admin', AdminHandler)
 ], debug=True)

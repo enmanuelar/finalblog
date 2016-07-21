@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-m-8">
+        <h2>Create New Post</h2>
+        <div class="form-group">
+            <textarea name="content"  id="post-content" class="form-control newpost-textarea"  rows="10" placeholder="Content of your posts" required autofocus></textarea>
+            <div class="col-xs-4">
+                <label for="select-category">Category</label>
+                <select class="select-category-box form-control" data-placeholder="Choose category" id="select-category" required>
+                    <option value="random">Random</option>
+                    <option value="music">Music</option>
+                    <option value="science">Science</option>
+                    <option value="technology">Technology</option>
+                    <option value="funny">Funny</option>
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-default newpost-submit-btn">Submit</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<form action="/newpost" method="post" >
+</form>
+{% endblock %}
+
+
+
