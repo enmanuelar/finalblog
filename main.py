@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2, os, jinja2
+import webapp2, os, jinja2, blogdb
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
@@ -33,7 +33,8 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
     def get(self):
-        self.render("index.html")
+        entries = db.GqlQuery("SELECT * FROM Entry WHERE enabled = TRUE ORDER BY created DESC LIMIT 10")
+        self.render("index.html", entries=entries)
 
 class SignupHandler(Handler):
     def get(self):
@@ -47,6 +48,22 @@ class NewpostHandler(Handler):
     def get(self):
         self.render("newpost.html")
 
+    def post(self):
+        title = self.request.get("title")
+        content = self.request.get("content")
+        category = self.request.get("category")
+        entry = blogdb.Entry(title=title, content=content, category=category, enabled=True)
+        entry_key = entry.put()
+        self.redirect('/' + str(entry_key.id()))
+
+class ArticleHandler(Handler):
+    def get(self, *args):
+        post_url = self.request.url
+        post_id = int(post_url.split('/')[-1])
+        entity = blogdb.Entry.get_by_id(post_id)
+
+        self.render("post.html", article_id=post_id, entry=entity)
+
 class AdminHandler(Handler):
     def get(self):
         self.render("admin.html")
@@ -56,5 +73,6 @@ app = webapp2.WSGIApplication([
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
     ('/newpost', NewpostHandler),
+    ((r'/(\d+)'), ArticleHandler),
     ('/admin', AdminHandler)
 ], debug=True)

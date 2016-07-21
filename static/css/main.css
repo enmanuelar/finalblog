@@ -81,6 +81,8 @@
     padding-bottom: 20px;
 }
 .blog-post-title {
+    color: #333333;
+    text-decoration: none;
     margin-bottom: 5px;
     font-size: 40px;
 }
@@ -96,6 +98,22 @@
     display: block;
 }
 
+.comments{
+    margin-top: 20px;
+}
+
+.comment-meta {
+    color: #999;
+}
+
+.single-comment :nth-child(even){
+    background-color: #eee;
+}
+
+.single-comment{
+    border-bottom: solid 1px;
+    margin-top: 20px;
+}
 /*
 * Signup form
 */
@@ -178,6 +196,7 @@ canvas{
 
 .newpost-textarea{
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .newpost-submit-btn{
