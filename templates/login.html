@@ -1,0 +1,26 @@
+{% extends "base.html"%}
+{% block title %}
+    Login to EAR Blog
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-signin" action="/login" method="post">
+            <h2 class="form-signin-heading">Login to your account</h2>
+            <div class="form-group has-feedback" id="input-name-div">
+                <label for="input-name" class="sr-only">Username</label>
+                <input type="text" id="input-name" class="form-control" name="username" placeholder="Username" required autofocus>
+                <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback" id="input-password-div">
+                <label for="input-password" class="sr-only">Password</label>
+                <input type="password" id="input-password" class="form-control" name="password" placeholder="Password" required>
+                <span class="glyphicon form-control-feedback"></span>
+            </div>
+            <input type="hidden"  value="true" id="validation-input" name="validation">
+            <button class="btn btn-lg btn-primary btn-block" id="register-btn" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

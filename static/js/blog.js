@@ -11,6 +11,10 @@ $(document).ready(function(){
             $("a.active").removeClass("active");
             $("a.signup-nav-item").addClass("active");
             break;
+        case "/login":
+            $("a.active").removeClass("active");
+            $("a.login-nav-item").addClass("active");
+            break;
         case "/admin":
             $("a.active").removeClass("active");
             $("a.admin-nav-item").addClass("active");

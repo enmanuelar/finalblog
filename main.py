@@ -39,6 +39,10 @@ class SignupHandler(Handler):
     def get(self):
         self.render("signup.html")
 
+class LoginHandler(Handler):
+    def get(self):
+        self.render("login.html")
+
 class AdminHandler(Handler):
     def get(self):
         self.render("admin.html")
@@ -46,5 +50,6 @@ class AdminHandler(Handler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/signup', SignupHandler),
+    ('/login', LoginHandler),
     ('/admin', AdminHandler)
 ], debug=True)
