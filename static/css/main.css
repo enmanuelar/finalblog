@@ -123,6 +123,11 @@
     color: #999999;
     margin-left: 40%;
 }
+
+iframe{
+    width: 100%;
+    height: 315px;
+}
 /*
 *Single post and comment section
 */
