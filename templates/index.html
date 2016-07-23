@@ -1,16 +1,27 @@
 {% extends "base.html" %}
 {% block content%}
-<div class="col-m-8 blog-main">
-    {% for entry in entries %}
-    <article class="blog-post">
-        <!--<a href="/{{entry.key().id()}}"><h2 class="blog-post-title">{{ entry.title }}</h2></a>-->
-        <h2 class="blog-post-title">{{ entry.title }}</h2>
-        <p class="blog-post-meta">{{ entry.date }} by User | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
-        <div class="blog-post-body more">
-            {{ entry.content }}
-        </div>
-        <a href="/{{entry.key().id()}}"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> 0 </span>comments</i></a>
-    </article>
-    {% endfor %}
+<div class="col-md-8 blog-main">
+    <div class="posts-wrapper">
+        {% for entry in entries %}
+        <article class="blog-post">
+            <a href="/{{entry.key().id()}}"><h2 class="blog-post-title">{{ entry.title }}</h2></a>
+            <!--<h2 class="blog-post-title">{{ entry.title }}</h2>-->
+            <p class="blog-post-meta">{{ entry.date }} by User | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
+            <div class="blog-post-body more">
+                {{ entry.content | safe }}
+            </div>
+            <a href="/{{entry.key().id()}}"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> 0 </span>comments</i></a>
+        </article>
+        {% endfor %}
+
+        {% for post in posts_html %}
+            {{ post | safe }}
+        {% endfor %}
+    </div>
+    <div class="load-more-posts">
+        <p class="no-more-error">No more posts to show</p>
+        <button type="button" class="btn btn-primary btn-lg load-more-btn">Load more posts</button>
+        <img class="ajax-loader-gif" src="static/images/ajax_loader_gray_32.gif" alt="load more posts">
+    </div>
 </div>
 {% endblock %}

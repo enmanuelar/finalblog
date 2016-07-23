@@ -20,6 +20,11 @@ handlers:
   static_files: static/\1
   upload: static/.*
 
+- url: /static/(.*\.gif)
+  mime_type: image/gif
+  static_files: static/\1
+  upload: static/.*
+
 - url: .*
   script: main.app
 

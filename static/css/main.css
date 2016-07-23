@@ -106,6 +106,38 @@
     color: #999;
 }
 
+
+
+.ajax-loader-gif {
+    display: none;
+    margin-left: 50%;
+}
+
+.load-more-btn{
+    margin-left: 40%;
+}
+
+
+.no-more-error{
+    display: none;
+    color: #999999;
+    margin-left: 40%;
+}
+/*
+*Single post and comment section
+*/
+
+.write-comment-span{
+    padding: 0px 10px 0px 10px;
+    border: solid 1px;
+    color: #1b6d85;
+    cursor: pointer;
+}
+
+.new-comment-wrapper{
+    display: none;
+}
+
 .single-comment :nth-child(even){
     background-color: #eee;
 }
@@ -214,4 +246,3 @@ canvas{
     background-color: #f9f9f9;
     border-top: 1px solid;
 }
-

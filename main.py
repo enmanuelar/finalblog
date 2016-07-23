@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2, os, jinja2, blogdb
+import webapp2, os, jinja2, blogdb, logging
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
@@ -32,9 +32,54 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class MainPage(Handler):
+    def get_post_html(self, entries):
+        article_list = []
+        for entry in entries:
+            comments = blogdb.get_comments(entry.key().id())
+            comments_count = 0
+            if comments:
+                comments_count = comments.count()
+            html = '''
+                    <article class="blog-post">
+                    <a href="/%d"><h2 class="blog-post-title">%s</h2></a>
+                    <p class="blog-post-meta">%s by User | <i class="fa fa-tag" aria-hidden="true"> %s</i></p>
+                    <div class="blog-post-body more">
+                        %s
+                    </div>
+                    <a href="/%d"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> %d </span>comments</i></a>
+                    </article>
+                    ''' % (entry.key().id(), entry.title, entry.date, entry.category, entry.content, entry.key().id(), comments_count)
+            article_list.append(html)
+        return  article_list
+
     def get(self):
-        entries = db.GqlQuery("SELECT * FROM Entry WHERE enabled = TRUE ORDER BY created DESC LIMIT 10")
-        self.render("index.html", entries=entries)
+        entries = blogdb.get_entries(0)
+        #self.render("index.html", entries=entries)
+        posts_html = self.get_post_html(entries)
+        self.render("index.html", posts_html=posts_html)
+
+
+    def post(self):
+        current_page = self.request.get("page")
+        entries = blogdb.get_entries(int(current_page))
+
+        posts_html = self.get_post_html(entries)
+        for post in posts_html:
+            #     comments = blogdb.get_comments(entry.key().id())
+            #     comments_count = 0
+            #     if comments:
+            #         comments_count = comments.count()
+            # html = '''
+            #         <article class="blog-post">
+            #         <a href="/%d"><h2 class="blog-post-title">%s</h2></a>
+            #         <p class="blog-post-meta">%s by User | <i class="fa fa-tag" aria-hidden="true"> %s</i></p>
+            #         <div class="blog-post-body more">
+            #             %s
+            #         </div>
+            #         <a href="/%d"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> %d </span>comments</i></a>
+            #         </article>
+            # ''' % (entry.key().id(), entry.title, entry.date, entry.category, entry.content, entry.key().id(), comments_count)
+            self.response.out.write(post)
 
 class SignupHandler(Handler):
     def get(self):
@@ -51,6 +96,7 @@ class NewpostHandler(Handler):
     def post(self):
         title = self.request.get("title")
         content = self.request.get("content")
+        content = "<br>".join(content.split("\n"))
         category = self.request.get("category")
         entry = blogdb.Entry(title=title, content=content, category=category, enabled=True)
         entry_key = entry.put()
@@ -61,8 +107,19 @@ class ArticleHandler(Handler):
         post_url = self.request.url
         post_id = int(post_url.split('/')[-1])
         entity = blogdb.Entry.get_by_id(post_id)
+        comments = blogdb.get_comments(post_id)
+        if comments:
+            self.render("post.html", article_id=post_id, entry=entity, comments=comments)
+        else:
+            self.render("post.html", article_id=post_id, entry=entity)
 
-        self.render("post.html", article_id=post_id, entry=entity)
+    def post(self, *args):
+        user = self.request.get('user')
+        content = self.request.get('content')
+        if user and content:
+            post_id = int(self.request.url.split('/')[-1])
+            comment_entity = blogdb.Comments(user=user, content=content, post_id=post_id)
+            comment_entity.put()
 
 class AdminHandler(Handler):
     def get(self):
