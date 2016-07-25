@@ -1,4 +1,3 @@
-import webapp2
 from main import Handler
 
 
@@ -7,6 +6,3 @@ class LoginHandler(Handler):
         self.render("login.html")
 
 
-app = webapp2.WSGIApplication([
-    ('/login', LoginHandler)
-], debug=True)

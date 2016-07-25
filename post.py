@@ -1,4 +1,3 @@
-import webapp2
 from main import Handler
 import blogdb
 
@@ -22,6 +21,3 @@ class PostHandler(Handler):
             comment_entity.put()
 
 
-app = webapp2.WSGIApplication([
-    ((r'/(\d+)'), PostHandler)
-], debug=True)

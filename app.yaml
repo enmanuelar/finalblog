@@ -25,26 +25,8 @@ handlers:
   static_files: static/\1
   upload: static/.*
 
-- url: /admin
-  script: admin.app
-
-- url: /validation
-  script: validation.app
-
-- url: /signup
-  script: signup.app
-
-- url: /login
-  script: login.app
-
-- url: /newpost
-  script: newpost.app
-
-- url: /(\d+)
-  script: post.app
-
 - url: .*
-  script: main.app
+  script: requests.app
 
 libraries:
 - name: webapp2
