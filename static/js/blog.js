@@ -70,6 +70,11 @@ Blog.titleValidation = function(element){
         $.post('/validation',{title: element.val()}, function(data){
             console.log('yee');
             var isValid = JSON.parse(data);
+            if (!isValid.valid_title){
+                $(".newpost-submit-btn").prop("disabled", true);
+            }else {
+                $(".newpost-submit-btn").prop("disabled", false);
+            }
             Blog.changeValidTagClass(element.parent(), isValid.valid_title);
         });
     });
@@ -137,10 +142,9 @@ switch (window.location.pathname){
 };
 $(document).ready(function(){
     Blog.init();
-    $("#newpost-submit-btn").click(function(){
-    console.log("ckkiii");
 });
-});
+
+
 
 
 
