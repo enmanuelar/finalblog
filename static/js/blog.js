@@ -1,47 +1,44 @@
-/**
- * Created by HMachine on 20/07/2016.
- */
-
-function showMore(){
+Blog = {};
+Blog.showMore = function() {
     //Show more/ less blog post body
     // Configure/customize these variables.
-        var showChar = 330;  // How many characters are shown by default
-        var ellipsestext = "...";
-        var moretext = "Show more >";
-        var lesstext = "Show less";
+    var showChar = 330;  // How many characters are shown by default
+    var ellipsestext = "...";
+    var moretext = "Show more >";
+    var lesstext = "Show less";
 
 
-        $('.more').each(function() {
-            var content = $(this).html();
+    $('.more').each(function () {
+        var content = $(this).html();
 
-            if(content.length > showChar) {
+        if (content.length > showChar) {
 
-                var c = content.substr(0, showChar);
-                var h = content.substr(showChar, content.length - showChar);
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar, content.length - showChar);
 
-                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h +
-                    '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+            var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h +
+                '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
 
-                $(this).html(html);
-            }
+            $(this).html(html);
+        }
 
-        });
+    });
 
-        $(".morelink").click(function(){
-            if($(this).hasClass("less")) {
-                $(this).removeClass("less");
-                $(this).html(moretext);
-            } else {
-                $(this).addClass("less");
-                $(this).html(lesstext);
-            }
-            $(this).parent().prev().toggle();
-            $(this).prev().toggle();
-            return false;
-        });
-}
+    $(".morelink").click(function () {
+        if ($(this).hasClass("less")) {
+            $(this).removeClass("less");
+            $(this).html(moretext);
+        } else {
+            $(this).addClass("less");
+            $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
+    });
+};
 
-function addNewComment(){
+Blog.addNewComment = function() {
     commentObj = $(".new-comment-textarea");
     content = commentObj.val();
     if (content) {
@@ -51,20 +48,35 @@ function addNewComment(){
         var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
         $(".comments").prepend(
             '<div class="single-comment">' +
-            '<p class="comment-meta">' + date  +
+            '<p class="comment-meta">' + date +
             ', by <span class="username">User</span></p>' +
             '<p>' + content + '</p>' +
             '</div>').children().first().hide().fadeIn("slow");
-        //commentObj.hide();
-        //$('.new-comment-submit-btn').hide();
         commentObj.val('');
         return content;
     }
-}
+};
 
+Blog.changeValidTagClass = function validationClass(targetTag, status) {
+    if (status) {
+        $(targetTag).removeClass("has-success has-error").addClass("has-success").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove").addClass("glyphicon-ok");
+    } else if (!status){
+        $(targetTag).removeClass("has-success has-error").addClass("has-error").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove").addClass("glyphicon-remove");
+    }
+};
 
-$(document).ready(function(){
-    switch (window.location.pathname){
+Blog.titleValidation = function(element){
+    $(element).blur(function() {
+        $.post('/validation',{title: element.val()}, function(data){
+            console.log('yee');
+            var isValid = JSON.parse(data);
+            Blog.changeValidTagClass(element.parent(), isValid.valid_title);
+        });
+    });
+};
+
+Blog.init = function(){
+switch (window.location.pathname){
         case "/":
             $("a.active").removeClass("active");
             $("a.home-nav-item").addClass("active");
@@ -88,7 +100,7 @@ $(document).ready(function(){
     }
 
     //Show more characters in post
-    showMore();
+    Blog.showMore();
 
     if (window.location.pathname == '/'){
         var currentPage = 0;
@@ -101,7 +113,7 @@ $(document).ready(function(){
                     $(".load-more-btn").hide();
                 }else {
                     $(".posts-wrapper").append(data);
-                    showMore();
+                    Blog.showMore();
                 }
             });
             $(".ajax-loader-gif").hide();
@@ -114,8 +126,23 @@ $(document).ready(function(){
         $(".new-comment-wrapper").slideDown('slow');
     });
     $(".new-comment-submit-btn").click(function(){
-        var content = addNewComment();
+        var content = Blog.addNewComment();
         var user = $('.username').html();
         $.post(window.location.pathname, {content: content, user: user})
     });
+
+    //New post title validation
+    Blog.titleValidation($("#newpost-title"));
+
+};
+$(document).ready(function(){
+    Blog.init();
+    $("#newpost-submit-btn").click(function(){
+    console.log("ckkiii");
 });
+});
+
+
+
+
+

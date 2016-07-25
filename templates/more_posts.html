@@ -1,0 +1,11 @@
+{% for entry in post_data %}
+<article class="blog-post">
+    <a href="/{{entry.id}}"><h2 class="blog-post-title">{{ entry.title }}</h2></a>
+    <!--<h2 class="blog-post-title">{{ entry.title }}</h2>-->
+    <p class="blog-post-meta">{{ entry.date }} by User | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
+    <div class="blog-post-body more">
+        {{ entry.content | safe }}
+    </div>
+    <a href="/{{entry.id}}"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> {{ entry.comments_count }} </span>comments</i></a>
+</article>
+{% endfor %}

@@ -14,8 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2, os, jinja2, blogdb, logging
+import webapp2, os, jinja2, blogdb, logging, utils, codecs
 from google.appengine.ext import db
+from collections import namedtuple
+from json import JSONEncoder
+
 
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -32,54 +35,29 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class MainPage(Handler):
-    def get_post_html(self, entries):
-        article_list = []
+    def get_post_data(self, entries):
+        post_list = []
+        d = namedtuple('post',['id', 'title', 'date', 'category', 'content', 'comments_count'])
         for entry in entries:
             comments = blogdb.get_comments(entry.key().id())
             comments_count = 0
             if comments:
                 comments_count = comments.count()
-            html = '''
-                    <article class="blog-post">
-                    <a href="/%d"><h2 class="blog-post-title">%s</h2></a>
-                    <p class="blog-post-meta">%s by User | <i class="fa fa-tag" aria-hidden="true"> %s</i></p>
-                    <div class="blog-post-body more">
-                        %s
-                    </div>
-                    <a href="/%d"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> %d </span>comments</i></a>
-                    </article>
-                    ''' % (entry.key().id(), entry.title, entry.date, entry.category, entry.content, entry.key().id(), comments_count)
-            article_list.append(html)
-        return  article_list
+            post_data = d(entry.key().id(), entry.title, entry.date, entry.category, entry.content, comments_count)
+            post_list.append(post_data)
+        return  post_list
 
     def get(self):
         entries = blogdb.get_entries(0)
-        #self.render("index.html", entries=entries)
-        posts_html = self.get_post_html(entries)
-        self.render("index.html", posts_html=posts_html)
+        post_data = self.get_post_data(entries)
+        self.render("index.html", post_data=post_data)
 
 
     def post(self):
         current_page = self.request.get("page")
         entries = blogdb.get_entries(int(current_page))
-
-        posts_html = self.get_post_html(entries)
-        for post in posts_html:
-            #     comments = blogdb.get_comments(entry.key().id())
-            #     comments_count = 0
-            #     if comments:
-            #         comments_count = comments.count()
-            # html = '''
-            #         <article class="blog-post">
-            #         <a href="/%d"><h2 class="blog-post-title">%s</h2></a>
-            #         <p class="blog-post-meta">%s by User | <i class="fa fa-tag" aria-hidden="true"> %s</i></p>
-            #         <div class="blog-post-body more">
-            #             %s
-            #         </div>
-            #         <a href="/%d"><i class="fa fa-comments blog-post-comment" aria-hidden="true"><span class="comment-num"> %d </span>comments</i></a>
-            #         </article>
-            # ''' % (entry.key().id(), entry.title, entry.date, entry.category, entry.content, entry.key().id(), comments_count)
-            self.response.out.write(post)
+        post_data = self.get_post_data(entries)
+        self.render("more_posts.html", post_data=post_data)
 
 class SignupHandler(Handler):
     def get(self):
@@ -96,11 +74,24 @@ class NewpostHandler(Handler):
     def post(self):
         title = self.request.get("title")
         content = self.request.get("content")
-        content = "<br>".join(content.split("\n"))
         category = self.request.get("category")
+        content = "<br>".join(content.split("\n"))
+        utils.add_post_title_cache(title)
         entry = blogdb.Entry(title=title, content=content, category=category, enabled=True)
         entry_key = entry.put()
         self.redirect('/' + str(entry_key.id()))
+
+
+class ValidationHandler(Handler):
+    def post(self):
+        title = self.request.get("title")
+        cached_title = utils.get_post_title_cache(title)
+        if cached_title:
+            response = JSONEncoder().encode({"valid_title": False})
+            self.response.out.write(response)
+        elif title and not cached_title:
+            response = JSONEncoder().encode({"valid_title": True})
+            self.response.out.write(response)
 
 class ArticleHandler(Handler):
     def get(self, *args):
@@ -130,6 +121,7 @@ app = webapp2.WSGIApplication([
     ('/signup', SignupHandler),
     ('/login', LoginHandler),
     ('/newpost', NewpostHandler),
+    ('/validation', ValidationHandler),
     ((r'/(\d+)'), ArticleHandler),
     ('/admin', AdminHandler)
 ], debug=True)

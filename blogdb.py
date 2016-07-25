@@ -16,7 +16,7 @@ class Comments(db.Model):
     post_id = db.IntegerProperty(required=True)
 
 def get_entries(page):
-    limit = 3
+    limit = 4
     offset = limit * page
     return db.GqlQuery("SELECT * FROM Entry WHERE enabled = TRUE ORDER BY created DESC LIMIT %d OFFSET %d" %(limit, offset))
 

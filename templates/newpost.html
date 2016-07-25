@@ -6,8 +6,11 @@
     <div class="col-m-8">
         <h2>Create New Post</h2>
         <div class="form-group">
-            <label for="newpost-title">Title</label>
-            <input type="text" name="title" class="form-control" id="newpost-title" placeholder="Title" required autofocus>
+            <div class="newpost-title-wrapper has-feedback">
+                <label for="newpost-title" class="control-label">Title</label>
+                <input type="text" name="title" class="form-control" id="newpost-title" placeholder="Title" required autofocus>
+                <span class="glyphicon form-control-feedback"></span>
+            </div>
             <textarea name="content"  id="post-content" class="form-control newpost-textarea"  rows="10" placeholder="Content of your posts" required></textarea>
             <div class="col-xs-4">
                 <label for="select-category">Category</label>

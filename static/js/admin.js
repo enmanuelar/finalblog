@@ -1,7 +1,5 @@
-/**
- * Created by HMachine on 20/07/2016.
- */
-$(document).ready(function(){
+Admin = {};
+Admin.barChart = function(){
     var barCanvas = $("#barChart");
     var barChart = new Chart(barCanvas, {
         type: 'bar',
@@ -39,7 +37,8 @@ $(document).ready(function(){
             }
         }
     });
-
+};
+Admin.pieChart = function(){
     var pieCanvas = $("#pieChart");
     var pieChart = new Chart(pieCanvas,{
         type: 'pie',
@@ -70,13 +69,25 @@ $(document).ready(function(){
             }
         }
     });
+};
 
-    //Manage post list
-    $('#manage-post-list').hideMaxListItems({
+Admin.managePost = function(){
+        $('#manage-post-list').hideMaxListItems({
         'max':3,
         'speed':500,
         'moreText':'SHOW MORE',
         'lessText':'SHOW LESS',
         'moreHTML': '<p class="maxlist-more"><a href="#">MORE OF THEM</a></p>'
     });
+};
+
+Admin.init = function(){
+    Admin.barChart();
+    Admin.pieChart();
+    Admin.managePost();
+};
+
+$(document).ready(function(){
+    Admin.init();
+
 });
