@@ -209,6 +209,24 @@ canvas{
     font-weight: normal;
 }
 
+
+
+.adm-manage-post-btn{
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+
+.admin-posted-by{
+    font-size: 12px;
+    color:  #c7c7c7;
+}
+
+.edit-admin-btn, .disable-admin-btn{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 /* READ MORE BUTTON */
 .maxlist-more {
     padding-left: 26px;
