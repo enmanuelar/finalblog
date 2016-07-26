@@ -3,6 +3,7 @@ from google.appengine.ext import db
 class Entry(db.Model):
     title = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
+    user = db.StringProperty(required=False)
     created = db.DateTimeProperty(auto_now_add=True)
     date = db.DateProperty(auto_now_add=True)
     category = db.StringProperty(required=True)
@@ -30,3 +31,6 @@ def get_comments(post_id):
 
 def get_user(username):
     return  db.Query(Users).filter('username =', username).get()
+
+def get_user_by_id(user_id):
+    return Users.get_by_id(user_id)

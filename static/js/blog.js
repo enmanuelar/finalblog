@@ -39,17 +39,17 @@ Blog.showMore = function() {
 };
 
 Blog.addNewComment = function() {
-    commentObj = $(".new-comment-textarea");
-    content = commentObj.val();
+    var commentObj = $(".new-comment-textarea");
+    var content = commentObj.val();
     if (content) {
-        //content = content.replace('\n', '<br>');
+        var username = $("#hidden-comment-username").val();
         content = content.split('\n').join('<br>');
         var d = new Date();
         var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
         $(".comments").prepend(
             '<div class="single-comment">' +
             '<p class="comment-meta">' + date +
-            ', by <span class="username">User</span></p>' +
+            ', by <span class="username">' + username + '</span></p>' +
             '<p>' + content + '</p>' +
             '</div>').children().first().hide().fadeIn("slow");
         commentObj.val('');

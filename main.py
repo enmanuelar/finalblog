@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2, os, jinja2, hashlib, random, string, logging
+import webapp2, os, jinja2, hashlib, random, string, logging, blogdb
 from google.appengine.api import memcache
 
 
@@ -37,7 +37,7 @@ class Handler(webapp2.RequestHandler):
 def get_from_cache(key):
     return memcache.get(key)
 
-##FOR POSTS USE TITLE AS KEY AND VALUE, FOR USERS USE USERNAME AS KEY AND ENTITY KEY AS VALUE
+##FOR POSTS USE TITLE AS KEY AND VALUE, FOR USERS USE ENTITY ID AS KEY AND ENTITY USERNAME AS VALUE
 def add_to_cache(key, value):
     memcache.set(key, value)
 
@@ -65,19 +65,30 @@ def check_secure_val(hashed_password, user_input):
     else:
         return None
 
+def get_cookie(self):
+    return self.request.cookies.get('user')
+
 def check_cookie(self):
-    cookie = self.request.cookies.get('user')
+    cookie = get_cookie(self)
     if cookie:
         return True
+    ##ADD ADDITIONAL COOKIE VALIDATION HERE
+
+def get_cookie_username(self):
+    cookie = get_cookie(self)
+    user_id = int(cookie.split('|')[1])
+    return blogdb.get_user_by_id(user_id).username
 
 ##DECORATORS
 def check_auth(func):
-    def func_wrapper(*args, **kwargs):
-        if check_cookie(*args):
+    def func_wrapper(self, *args, **kwargs):
+        if check_cookie(self):
             kwargs['user_logged'] = True
+            kwargs['username'] = get_cookie_username(self)
         else:
             kwargs['user_logged'] = False
-        return func(*args, **kwargs)
+            kwargs['username'] = None
+        return func(self, *args, **kwargs)
     return func_wrapper
 
 

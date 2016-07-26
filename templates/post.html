@@ -5,7 +5,7 @@
 	<div class="posts-wrapper">
 		<article class="blog-post">
 			<h2 class="blog-post-title">{{ entry.title }}</h2>
-			<p class="blog-post-meta">{{ entry.date }} by User | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
+			<p class="blog-post-meta">{{ entry.date }} by {{ entry.user }} | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
 			<div class="blog-post-body">
 				{{ entry.content | safe }}
 			</div>
@@ -15,17 +15,20 @@
 <div class="row">
 	<div class="col-md-8 ">
 		<h2>Comments</h2>
-		<div class="row">
-			<div class="col-md-8">
-			<span class="write-comment-span"><i class="fa fa-comments blog-post-comment" aria-hidden="true"> Click here to write a new comment</i></span>
+		{% if user_logged %}
+			<div class="row">
+				<div class="col-md-8">
+				<span class="write-comment-span"><i class="fa fa-comments blog-post-comment" aria-hidden="true"> Click here to write a new comment</i></span>
+				</div>
 			</div>
-		</div>
-		<div class="new-comment-wrapper">
-			<form action="#">
-				<textarea name="new-comment" id="new-comment" class="form-control new-comment-textarea"  rows="3" placeholder="Write new comment" autofocus></textarea>
-				<button type="button" class="btn btn-default new-comment-submit-btn">Submit</button>
-			</form>
-		</div>
+			<div class="new-comment-wrapper">
+				<form action="#">
+					<textarea name="new-comment" id="new-comment" class="form-control new-comment-textarea"  rows="3" placeholder="Write new comment" autofocus></textarea>
+					<button type="button" class="btn btn-default new-comment-submit-btn">Submit</button>
+				</form>
+				<input type="hidden" id="hidden-comment-username" name="comment-username" value="{{ username }}">
+			</div>
+		{% endif %}
 		<div class="comments">
 			{% for comment in comments %}
 			<div class="single-comment">

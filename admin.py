@@ -1,7 +1,8 @@
 import webapp2
-from main import Handler
+from main import *
 
 class AdminHandler(Handler):
-    def get(self):
-        self.render("admin.html")
+    @check_auth
+    def get(self, **kwargs):
+        self.render("admin.html", user_logged=kwargs['user_logged'])
 

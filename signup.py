@@ -3,8 +3,9 @@ from json import JSONEncoder
 import blogdb
 
 class SignupHandler(Handler):
-    def get(self):
-        self.render("signup.html")
+    @check_auth
+    def get(self, **kwargs):
+        self.render("signup.html", user_logged=kwargs['user_logged'])
 
     def post(self):
         username = self.request.get("username")

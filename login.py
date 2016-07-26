@@ -2,8 +2,9 @@ from main import *
 import blogdb, logging
 
 class LoginHandler(Handler):
-    def get(self):
-        self.render("login.html")
+    @check_auth
+    def get(self, **kwargs):
+        self.render("login.html", user_logged=kwargs['user_logged'])
 
     def post(self):
         username = self.request.get("username")
@@ -11,7 +12,6 @@ class LoginHandler(Handler):
         entity = blogdb.get_user(username)
         if entity:
             if validpw(password, entity.password):
-                logging.error("GFGSDFGDFPGSKGPKRWET$%$$$$$$$$$")
                 cookie = str(hash_cookie(username))
                 self.response.headers.add_header('Set-Cookie', 'user=%s|%s; Path=/' % (cookie, entity.key().id()))
                 self.redirect('/')
@@ -21,3 +21,7 @@ class LoginHandler(Handler):
         else:
             self.redirect('/signup')
 
+class LogoutHandler(Handler):
+    def get(self):
+        self.response.delete_cookie('user')
+        self.redirect("/")

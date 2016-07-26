@@ -22,7 +22,7 @@
                 <a class="blog-nav-item home-nav-item" href="/">Home</a>
                 <a class="blog-nav-item newpost-nav-item" href="/newpost">Add New Post</a>
                 <a class="blog-nav-item admin-nav-item" href="/admin">Admin</a>
-                <a class="blog-nav-item" href="#">User logout</a>
+                <a class="blog-nav-item" href="/logout">{{ username }} logout</a>
             </nav>
         </div>
 {% else %}
@@ -31,7 +31,6 @@
                 <a class="blog-nav-item home-nav-item" href="/">Home</a>
                 <a class="blog-nav-item signup-nav-item" href="/signup">Sign up</a>
                 <a class="blog-nav-item login-nav-item" href="/login">Login</a>
-                <a class="blog-nav-item newpost-nav-item" href="/newpost">Add New Post</a>
             </nav>
         </div>
 {% endif %}

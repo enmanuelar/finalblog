@@ -6,7 +6,7 @@
         <article class="blog-post">
             <a href="/{{entry.id}}"><h2 class="blog-post-title">{{ entry.title }}</h2></a>
             <!--<h2 class="blog-post-title">{{ entry.title }}</h2>-->
-            <p class="blog-post-meta">{{ entry.date }} by User | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
+            <p class="blog-post-meta">{{ entry.date }} by {{ entry.user }} | <i class="fa fa-tag" aria-hidden="true"> {{ entry.category }}</i></p>
             <div class="blog-post-body more">
                 {{ entry.content | safe }}
             </div>
