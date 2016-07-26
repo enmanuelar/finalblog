@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2, os, jinja2
+import webapp2, os, jinja2, hashlib, random, string, logging
 from google.appengine.api import memcache
 
 
@@ -33,13 +33,52 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 ##CACHE
-def get_post_title_cache(title):
-    return memcache.get(title)
+##FOR POSTS USE TITLE AS KEY, FOR USERS USE USERNAME AS KEY
+def get_from_cache(key):
+    return memcache.get(key)
 
-def add_post_title_cache(title):
-    memcache.set(title, title)
+##FOR POSTS USE TITLE AS KEY AND VALUE, FOR USERS USE USERNAME AS KEY AND ENTITY KEY AS VALUE
+def add_to_cache(key, value):
+    memcache.set(key, value)
+
+## HASHING FUNCTIONS
+secret = 'salvnnlKLKNjfasmvkmnvKNLOcxre'
+
+def hashpw(password):
+    h = hashlib.sha256(password + secret).hexdigest()
+    return h
 
 
+def validpw(password, compare):
+    if hashpw(password) == compare:
+        return True
+
+
+def hash_cookie(username):
+    h = hashpw(username)
+    return "%s" % (h)
+
+
+def check_secure_val(hashed_password, user_input):
+    if validpw(hashed_password, user_input):
+        return True
+    else:
+        return None
+
+def check_cookie(self):
+    cookie = self.request.cookies.get('user')
+    if cookie:
+        return True
+
+##DECORATORS
+def check_auth(func):
+    def func_wrapper(*args, **kwargs):
+        if check_cookie(*args):
+            kwargs['user_logged'] = True
+        else:
+            kwargs['user_logged'] = False
+        return func(*args, **kwargs)
+    return func_wrapper
 
 
 

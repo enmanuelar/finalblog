@@ -1,6 +1,4 @@
-import webapp2
-from main import Handler
-import utils
+from main import *
 import blogdb
 
 class NewpostHandler(Handler):
@@ -12,11 +10,8 @@ class NewpostHandler(Handler):
         content = self.request.get("content")
         category = self.request.get("category")
         content = "<br>".join(content.split("\n"))
-        utils.add_post_title_cache(title)
+        add_to_cache(title, title)
         entry = blogdb.Entry(title=title, content=content, category=category, enabled=True)
         entry_key = entry.put()
         self.redirect('/' + str(entry_key.id()))
 
-app = webapp2.WSGIApplication([
-    ('/newpost', NewpostHandler)
-], debug=True)

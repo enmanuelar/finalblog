@@ -5,7 +5,7 @@ from json import JSONEncoder
 class ValidationHandler(Handler):
     def post(self):
         title = self.request.get("title")
-        cached_title = get_post_title_cache(title)
+        cached_title = get_from_cache(title)
         if cached_title:
             response = JSONEncoder().encode({"valid_title": False})
             self.response.out.write(response)

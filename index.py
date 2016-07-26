@@ -1,4 +1,4 @@
-from main import Handler
+from main import *
 import blogdb
 from collections import namedtuple
 
@@ -15,10 +15,11 @@ class MainPage(Handler):
             post_list.append(post_data)
         return  post_list
 
-    def get(self):
+    @check_auth
+    def get(self, **kwargs):
         entries = blogdb.get_entries(0)
         post_data = self.get_post_data(entries)
-        self.render("index.html", post_data=post_data)
+        self.render("index.html", post_data=post_data, user_logged=kwargs['user_logged'])
 
 
     def post(self):

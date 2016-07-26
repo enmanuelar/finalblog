@@ -15,6 +15,11 @@ class Comments(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     post_id = db.IntegerProperty(required=True)
 
+class Users(db.Model):
+    username = db.StringProperty(required = True)
+    password = db.StringProperty(required = True)
+    email = db.EmailProperty(required = False)
+
 def get_entries(page):
     limit = 4
     offset = limit * page
@@ -22,3 +27,6 @@ def get_entries(page):
 
 def get_comments(post_id):
     return db.GqlQuery("SELECT * FROM Comments WHERE post_id = %d ORDER BY created DESC" % (post_id))
+
+def get_user(username):
+    return  db.Query(Users).filter('username =', username).get()

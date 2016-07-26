@@ -57,10 +57,10 @@ Blog.addNewComment = function() {
     }
 };
 
-Blog.changeValidTagClass = function validationClass(targetTag, status) {
+Blog.changeValidTagClass = function changeValidTagClass(targetTag, status) {
     if (status) {
         $(targetTag).removeClass("has-success has-error").addClass("has-success").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove").addClass("glyphicon-ok");
-    } else if (!status){
+    } else{
         $(targetTag).removeClass("has-success has-error").addClass("has-error").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove").addClass("glyphicon-remove");
     }
 };
@@ -77,6 +77,74 @@ Blog.titleValidation = function(element){
             }
             Blog.changeValidTagClass(element.parent(), isValid.valid_title);
         });
+    });
+};
+
+Blog.signupValidation = function(){
+    //username
+    $("#input-name").blur(function () {
+        var username = $("#input-name").val();
+        var validation = $("input#validation-input").val();
+        if (username && /^[a-zA-Z0-9_-]{3,20}$/.test(username)) {
+            $.post("/signup", {username: username, validation: validation}).done(function(data){
+                var status = JSON.parse(data).status;
+                Blog.changeValidTagClass("#input-name-div", status);
+            });
+        }
+        else {
+            Blog.changeValidTagClass("#input-name-div", false);
+        }
+    });
+//password
+    $("#input-password").change(function () {
+        var password = $("#input-password").val();
+        var verify = $("#input-verify").val();
+
+        if (password && /^.{3,20}$/.test(password)) {
+            Blog.changeValidTagClass("#input-password-div", true);
+            if (verify && verify == password){
+                Blog.changeValidTagClass("#input-verify-div", true);
+            }
+        }
+        else {
+            Blog.changeValidTagClass("#input-password-div", false);
+        }
+    });
+//verify
+    $("#input-verify").change(function () {
+        var verify = $("#input-verify").val();
+        var password = $("#input-password").val();
+        if (verify && /^.{3,20}$/.test(verify) && (password == verify)) {
+            Blog.changeValidTagClass("#input-verify-div", true);
+        }
+        else {
+            Blog.changeValidTagClass("#input-verify-div", false);
+        }
+    });
+//email
+    var email = $("#input-email");
+    if (email.val()){
+        email.blur(function () {
+            var email = $("#input-email").val();
+            if ((email && /^[\S]+@[\S]+.[\S]+$/.test(email)) || !email) {
+                Blog.changeValidTagClass("#input-email-div", true);
+            }
+            else {
+                Blog.changeValidTagClass("#input-email-div", false);
+            }
+        });
+    }
+    //Signup submit btn
+    $("#register-btn").click(function(){
+        if ($("div.has-feedback").children("span.glyphicon-ok").length >= 3){
+            $("input#validation-input").val("false");
+        }else{
+            $("#input-password").val("");
+            $("#input-password-div").removeClass("has-success has-error").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove");
+            $("#input-verify").val("");
+            $("#input-verify-div").removeClass("has-success has-error").children("span.glyphicon").removeClass("glyphicon-ok glyphicon-remove");
+
+        }
     });
 };
 
@@ -138,6 +206,10 @@ switch (window.location.pathname){
 
     //New post title validation
     Blog.titleValidation($("#newpost-title"));
+
+    //Signup Validation
+    Blog.signupValidation();
+
 
 };
 $(document).ready(function(){

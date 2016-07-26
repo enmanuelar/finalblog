@@ -15,21 +15,32 @@
     {% endblock %}
 </head>
 <body>
-    <div class="blog-masthead">
+<div class="blog-masthead">
+{% if user_logged %}
+        <div class="container">
+            <nav class="blog-nav">
+                <a class="blog-nav-item home-nav-item" href="/">Home</a>
+                <a class="blog-nav-item newpost-nav-item" href="/newpost">Add New Post</a>
+                <a class="blog-nav-item admin-nav-item" href="/admin">Admin</a>
+                <a class="blog-nav-item" href="#">User logout</a>
+            </nav>
+        </div>
+{% else %}
         <div class="container">
             <nav class="blog-nav">
                 <a class="blog-nav-item home-nav-item" href="/">Home</a>
                 <a class="blog-nav-item signup-nav-item" href="/signup">Sign up</a>
                 <a class="blog-nav-item login-nav-item" href="/login">Login</a>
                 <a class="blog-nav-item newpost-nav-item" href="/newpost">Add New Post</a>
-                <a class="blog-nav-item admin-nav-item" href="/admin">Admin</a>
             </nav>
         </div>
+{% endif %}
     </div>
     <div class="container-fluid blog-header">
             <h1 class="blog-title">EAR Blog</h1>
             <p class="lead blog-description">Welcome to my blog</p>
     </div>
+
     <div class="container">
         {% block content %}
 
