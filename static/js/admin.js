@@ -81,10 +81,59 @@ Admin.managePost = function(){
     });
 };
 
+Admin.sumTopPostNum = function(){
+    var i = 0;
+    var numObj = $(".top_post_number").each(function(){
+        var num = parseInt($(this).html());
+        $(this).html(num + i);
+        i++
+    });
+};
+
+Admin.changeBgClass = function(btn){
+    if (btn.html() == "Enable"){
+        btn.parent().parent().addClass("li-bg-red");
+    }else{
+        btn.parent().parent().removeClass("li-bg-red");
+    }
+};
+
+Admin.liBackgroundColor = function(){
+    var adminBtn = $(".disable-admin-btn");
+    adminBtn.each(function(){
+        Admin.changeBgClass($(this));
+    });
+};
+
+Admin.enableDisablePost = function(){
+    $('.disable-admin-btn').click(function(){
+        var postId = parseInt($(this).siblings().filter('input.enable-disable-post-id').val());
+        var status = true;
+        if ($(this).html() == "Enable"){
+            status = false;
+        }
+        $.post('/admin',{post_id: postId, status: status});
+        if (status){
+            $(this).html('Enable');
+        }else{
+            $(this).html('Disable');
+        }
+        Admin.changeBgClass($(this));
+    });
+
+    //$.post('/admin',{post_id: postId, status: status});
+
+};
+
 Admin.init = function(){
     Admin.barChart();
     Admin.pieChart();
     Admin.managePost();
+    Admin.sumTopPostNum();
+    Admin.liBackgroundColor();
+    Admin.enableDisablePost();
+    //$('.disable-admin-btn').click(Admin.enableDisablePost($(this)));
+
 };
 
 $(document).ready(function(){

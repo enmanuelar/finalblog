@@ -25,15 +25,20 @@
     <div class="col-md-4 col-md-offset-4">
         <h2>Manage posts</h2>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-12">
         <ul id="manage-post-list list-group">
             {% for post in posts %}
-            <li class="admin-post-list list-group-item">{{ post.title }}
-                <span  class="admin-posted-by"><em>posted by {{ post.user }}</em></span>
+            <li class="admin-post-list list-group-item"><a  href="/{{post.key().id()}}">{{ post.title }}</a>
                 <div class="btn-group adm-manage-post-btn">
+                    <input type="hidden" class="enable-disable-post-id" value="{{ post.key().id() }}">
                     <button type="submit" class="btn btn-primary edit-admin-btn">Edit</button>
+                    {% if post.enabled %}
                     <button type="submit" class="btn btn-default disable-admin-btn">Disable</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-default disable-admin-btn">Enable</button>
+                    {% endif %}
                 </div>
+                <span  class="admin-posted-by"><em>posted by {{ post.user }}</em></span>
             </li>
             {% endfor %}
         </ul>
@@ -48,9 +53,9 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Title</th>
-                    <th>User</th>
-                    <th>comments</th>
+                    <th>Post Title</th>
+                    <th>Created by</th>
+                    <th># of Comments</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,7 +65,7 @@
                         <span class="top_post_number">1</span>
                     </td>
                     <td>
-                        {{ top_post[0].title }}
+                        <a href="/{{top_post[0].id}}">{{ top_post[0].title }}</a>
                     </td>
                     <td>
                         {{ top_post[0].user }}

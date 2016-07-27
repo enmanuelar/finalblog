@@ -209,6 +209,9 @@ canvas{
     font-weight: normal;
 }
 
+.li-bg-red{
+    background-color: #ffb4b3;
+}
 
 
 .adm-manage-post-btn{
@@ -219,13 +222,16 @@ canvas{
 
 .admin-posted-by{
     font-size: 12px;
-    color:  #c7c7c7;
+    color: #000000;
 }
 
-.edit-admin-btn, .disable-admin-btn{
+.edit-admin-btn, .disable-admin-btn, .enable-admin-btn{
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
+
+
 
 /* READ MORE BUTTON */
 .maxlist-more {
