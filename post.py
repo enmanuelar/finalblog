@@ -1,5 +1,5 @@
 from main import *
-import blogdb
+import blogdb, logging
 
 class PostHandler(Handler):
     @check_auth
@@ -16,9 +16,10 @@ class PostHandler(Handler):
     def post(self, *args):
         user = self.request.get('user')
         content = self.request.get('content')
+        category = self.request.get('category')
         if user and content:
             post_id = int(self.request.url.split('/')[-1])
-            comment_entity = blogdb.Comments(user=user, content=content, post_id=post_id)
+            comment_entity = blogdb.Comments(user=user, content=content, post_id=post_id, category=category)
             comment_entity.put()
 
 

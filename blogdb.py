@@ -15,6 +15,7 @@ class Comments(db.Model):
     date = db.DateProperty(auto_now_add=True)
     created = db.DateTimeProperty(auto_now_add=True)
     post_id = db.IntegerProperty(required=True)
+    category = db.StringProperty(required=False)
 
 class Users(db.Model):
     username = db.StringProperty(required=True)
@@ -35,8 +36,11 @@ def get_comments(post_id):
 def get_single_entry(post_id):
     return Entry.get_by_id(post_id)
 
-def get_posts_id_by_comments():
-    return db.GqlQuery("SELECT * FROM Comments ORDER BY post_id DESC")
+def get_comments_sorted_by_post_id():
+    return Comments.all().order('-post_id').run()
+
+def get_categories_by_comments():
+    return Comments.all().order('-post_id').run()
 
 def get_user(username):
     return  db.Query(Users).filter('username =', username).get()

@@ -201,7 +201,8 @@ switch (window.location.pathname){
     $(".new-comment-submit-btn").click(function(){
         var content = Blog.addNewComment();
         var user = $('.username').html();
-        $.post(window.location.pathname, {content: content, user: user})
+        var category = $('i.category').html().substring(1);
+        $.post(window.location.pathname, {content: content, user: user, category: category})
     });
 
     //New post title validation

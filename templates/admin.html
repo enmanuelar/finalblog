@@ -55,7 +55,7 @@
                     <th>#</th>
                     <th>Post Title</th>
                     <th>Created by</th>
-                    <th># of Comments</th>
+                    <th>Comments</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,33 +83,24 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Tag</th>
-                    <th>comments</th>
+                    <th>Category</th>
+                    <th>Comments</th>
                 </tr>
             </thead>
             <tbody>
+            {% for top_category in top_categories %}
                 <tr>
                     <td>
-                        1
+                        <span class="top_post_number">1</span>
                     </td>
                     <td>
-                        tag
+                        {{ top_category.category }}
                     </td>
                     <td>
-                        number of comments
+                       {{ top_category.comments_count }}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        2
-                    </td>
-                    <td>
-                        tag
-                    </td>
-                    <td>
-                        number of comments
-                    </td>
-                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
