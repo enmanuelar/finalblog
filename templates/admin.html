@@ -30,13 +30,16 @@
             {% for post in posts %}
             <li class="admin-post-list list-group-item"><a  href="/{{post.key().id()}}">{{ post.title }}</a>
                 <div class="btn-group adm-manage-post-btn">
-                    <input type="hidden" class="enable-disable-post-id" value="{{ post.key().id() }}">
-                    <button type="submit" class="btn btn-primary edit-admin-btn">Edit</button>
-                    {% if post.enabled %}
-                    <button type="submit" class="btn btn-default disable-admin-btn">Disable</button>
-                    {% else %}
-                    <button type="submit" class="btn btn-default disable-admin-btn">Enable</button>
+                    <form action="/edit" method="get">
+                        <input type="hidden" class="enable-disable-post-id" value="{{ post.key().id() }}">
+                        <button type="submit" class="btn btn-primary edit-admin-btn" name="post_id" value="{{ post.key().id() }}" formaction="/edit" formmethod="get">Edit</button>
+
+                        {% if post.enabled %}
+                            <button type="button" class="btn btn-default disable-admin-btn">Disable</button>
+                        {% else %}
+                            <button type="button" class="btn btn-default disable-admin-btn">Enable</button>
                     {% endif %}
+                    </form>
                 </div>
                 <span  class="admin-posted-by"><em>posted by {{ post.user }}</em></span>
             </li>
@@ -89,14 +92,14 @@
             </thead>
             <tbody>
             {% for top_category in top_categories %}
-                <tr>
+                <tr class="top-categories-row">
                     <td>
-                        <span class="top_post_number">1</span>
+                        <span class="top_categories_number">1</span>
                     </td>
-                    <td>
+                    <td class="top-categories-category">
                         {{ top_category.category }}
                     </td>
-                    <td>
+                    <td class="top-categories-comments">
                        {{ top_category.comments_count }}
                     </td>
                 </tr>

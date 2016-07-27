@@ -148,6 +148,14 @@ Blog.signupValidation = function(){
     });
 };
 
+Blog.editPost = function(){
+    $('.edit-save-btn').click(function(){
+        var content = $('.contenteditable').html();
+        var post_id = window.location.href.slice(window.location.href.indexOf('?') + 9);
+        $.post('/edit',{post_id: post_id, content: content});
+    });
+};
+
 Blog.init = function(){
 switch (window.location.pathname){
         case "/":
@@ -211,7 +219,8 @@ switch (window.location.pathname){
     //Signup Validation
     Blog.signupValidation();
 
-
+    //Edit Post
+    Blog.editPost();
 };
 $(document).ready(function(){
     Blog.init();

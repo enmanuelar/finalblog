@@ -4,7 +4,7 @@ Admin.barChart = function(){
     var barChart = new Chart(barCanvas, {
         type: 'bar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: ["Random", "Music", "Science", "Technology", "Funny"],
             datasets: [{
                 label: '# of Votes',
                 data: [12, 19, 3, 5, 2, 3],
@@ -13,16 +13,14 @@ Admin.barChart = function(){
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
                     'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(153, 102, 255, 0.2)'
                 ],
                 borderColor: [
                     'rgba(255,99,132,1)',
                     'rgba(54, 162, 235, 1)',
                     'rgba(255, 206, 86, 1)',
                     'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba(153, 102, 255, 1)'
                 ],
                 borderWidth: 1
             }]
@@ -40,26 +38,30 @@ Admin.barChart = function(){
 };
 Admin.pieChart = function(){
     var pieCanvas = $("#pieChart");
+    var data = [3, 1, 3, 4, 0];
+    $('.top-categories-row').each(function(){
+        $(this).children('')
+    });
     var pieChart = new Chart(pieCanvas,{
         type: 'pie',
         data: {
-            labels: [
-                "Red",
-                "Blue",
-                "Yellow"
-            ],
+            labels: ["Random", "Music", "Science", "Technology", "Funny"],
             datasets: [
                 {
-                    data: [300, 50, 100],
+                    data: data,
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
-                        "#FFCE56"
+                        "#FFCE56",
+                        "#96FF56",
+                        "#F556FF"
                     ],
                     hoverBackgroundColor: [
                         "#FF6384",
                         "#36A2EB",
-                        "#FFCE56"
+                        "#FFCE56",
+                        "#96FF56",
+                        "#F556FF"
                     ]
                 }]
         },
@@ -81,9 +83,9 @@ Admin.managePost = function(){
     });
 };
 
-Admin.sumTopPostNum = function(){
+Admin.sumTopPostNum = function(obj){
     var i = 0;
-    var numObj = $(".top_post_number").each(function(){
+    obj.each(function(){
         var num = parseInt($(this).html());
         $(this).html(num + i);
         i++
@@ -92,9 +94,9 @@ Admin.sumTopPostNum = function(){
 
 Admin.changeBgClass = function(btn){
     if (btn.html() == "Enable"){
-        btn.parent().parent().addClass("li-bg-red");
+        btn.parent().parent().parent().addClass("li-bg-red");
     }else{
-        btn.parent().parent().removeClass("li-bg-red");
+        btn.parent().parent().parent().removeClass("li-bg-red");
     }
 };
 
@@ -120,19 +122,18 @@ Admin.enableDisablePost = function(){
         }
         Admin.changeBgClass($(this));
     });
-
-    //$.post('/admin',{post_id: postId, status: status});
-
 };
+
+
 
 Admin.init = function(){
     Admin.barChart();
     Admin.pieChart();
     Admin.managePost();
-    Admin.sumTopPostNum();
+    Admin.sumTopPostNum($(".top_post_number"));
+    Admin.sumTopPostNum($(".top_categories_number"));
     Admin.liBackgroundColor();
     Admin.enableDisablePost();
-    //$('.disable-admin-btn').click(Admin.enableDisablePost($(this)));
 
 };
 

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-8 blog-main">
+	<div class="posts-wrapper" >
+		<article class="blog-post">
+			<h2 class="blog-post-title">{{ entry.title }}</h2>
+			<p class="blog-post-meta">{{ entry.date }} by {{ entry.user }} | <i class="fa fa-tag category" aria-hidden="true"> {{ entry.category }}</i></p>
+			<div class="blog-post-body contenteditable" contenteditable="true">{{ entry.content | safe }}</div>
+            <button type="button" class="btn btn-primary edit-save-btn">Save</button>
+		</article>
+	</div>
+</div>
+{% endblock %}
+

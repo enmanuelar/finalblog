@@ -230,8 +230,13 @@ canvas{
     padding-bottom: 0px;
 }
 
+.contenteditable{
+    background-color: antiquewhite;
+}
 
-
+.edit-save-btn{
+    margin-top: 20px;
+}
 
 /* READ MORE BUTTON */
 .maxlist-more {
