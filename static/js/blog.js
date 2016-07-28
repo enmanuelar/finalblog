@@ -68,7 +68,6 @@ Blog.changeValidTagClass = function changeValidTagClass(targetTag, status) {
 Blog.titleValidation = function(element){
     $(element).blur(function() {
         $.post('/validation',{title: element.val()}, function(data){
-            console.log('yee');
             var isValid = JSON.parse(data);
             if (!isValid.valid_title){
                 $(".newpost-submit-btn").prop("disabled", true);

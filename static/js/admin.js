@@ -36,9 +36,9 @@ Admin.barChart = function(){
         }
     });
 };
-Admin.pieChart = function(){
+Admin.pieChart = function(data){
     var pieCanvas = $("#pieChart");
-    var data = [3, 1, 3, 4, 0];
+    console.log(data.data);
     $('.top-categories-row').each(function(){
         $(this).children('')
     });
@@ -48,7 +48,7 @@ Admin.pieChart = function(){
             labels: ["Random", "Music", "Science", "Technology", "Funny"],
             datasets: [
                 {
-                    data: data,
+                    data: data.data,
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
@@ -124,17 +124,24 @@ Admin.enableDisablePost = function(){
     });
 };
 
-
+Admin.get_charts_data = function(){
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: '/charts'
+    }).done(function(data){
+        Admin.pieChart(data);
+    });
+};
 
 Admin.init = function(){
-    Admin.barChart();
-    Admin.pieChart();
     Admin.managePost();
     Admin.sumTopPostNum($(".top_post_number"));
     Admin.sumTopPostNum($(".top_categories_number"));
     Admin.liBackgroundColor();
     Admin.enableDisablePost();
-
+    Admin.barChart();
+    Admin.get_charts_data();
 };
 
 $(document).ready(function(){

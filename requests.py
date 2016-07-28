@@ -2,10 +2,11 @@ import webapp2
 from index import MainPage
 from login import LoginHandler, LogoutHandler
 from signup import SignupHandler
-from admin import AdminHandler
+from admin import AdminHandler, ChartsHandler
 from newpost import NewpostHandler
 from post import PostHandler
 from validation import ValidationHandler
+from edit import EditHandler
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -15,5 +16,7 @@ app = webapp2.WSGIApplication([
     ('/admin', AdminHandler),
     ('/newpost', NewpostHandler),
     ((r'/(\d+)'), PostHandler),
-    ('/validation', ValidationHandler)
+    ('/validation', ValidationHandler),
+    ('/edit', EditHandler),
+    ('/charts', ChartsHandler)
 ], debug=True)
