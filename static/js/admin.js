@@ -1,13 +1,13 @@
 Admin = {};
-Admin.barChart = function(){
+Admin.barChart = function(data){
     var barCanvas = $("#barChart");
     var barChart = new Chart(barCanvas, {
         type: 'bar',
         data: {
             labels: ["Random", "Music", "Science", "Technology", "Funny"],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: '# of posts by category',
+                data: data.bar_data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -38,7 +38,6 @@ Admin.barChart = function(){
 };
 Admin.pieChart = function(data){
     var pieCanvas = $("#pieChart");
-    console.log(data.data);
     $('.top-categories-row').each(function(){
         $(this).children('')
     });
@@ -48,7 +47,7 @@ Admin.pieChart = function(data){
             labels: ["Random", "Music", "Science", "Technology", "Funny"],
             datasets: [
                 {
-                    data: data.data,
+                    data: data.pie_data,
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
@@ -130,18 +129,18 @@ Admin.get_charts_data = function(){
         dataType: 'json',
         url: '/charts'
     }).done(function(data){
+        Admin.barChart(data);
         Admin.pieChart(data);
     });
 };
 
 Admin.init = function(){
+    Admin.get_charts_data();
     Admin.managePost();
     Admin.sumTopPostNum($(".top_post_number"));
     Admin.sumTopPostNum($(".top_categories_number"));
     Admin.liBackgroundColor();
     Admin.enableDisablePost();
-    Admin.barChart();
-    Admin.get_charts_data();
 };
 
 $(document).ready(function(){

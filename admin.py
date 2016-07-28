@@ -52,8 +52,8 @@ class ChartsHandler(Handler):
     def get(self):
         ##Categories order in charts ["Random", "Music", "Science", "Technology", "Funny"]
         top_categories = get_top_categories()
+        entries_count = blogdb.get_posts_count_by_category("random", "music", "science", "technology", "funny")
         l = [0, 0, 0, 0, 0]
-        total = 0
         for c in top_categories:
             i = {'random': 0, 'music': 1, 'science': 2, 'technology': 3, 'funny': 4}.get(c.category)
             l[i] = {'random': c.comments_count,
@@ -61,9 +61,6 @@ class ChartsHandler(Handler):
                     'science': c.comments_count,
                     'technology': c.comments_count,
                     'funny': c.comments_count}.get(c.category)
-            #total += c.comments_count
-        ##CONVERTS COUNT TO PERCENTAGE
-        #for i in range(len(l)):
-        #    l[i] = (l[i] * 100) / total
-        response = JSONEncoder().encode({'data': l})
+
+        response = JSONEncoder().encode({'pie_data': l, 'bar_data': entries_count})
         self.response.out.write(response)

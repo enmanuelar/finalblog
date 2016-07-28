@@ -27,6 +27,12 @@ def get_entries(page):
     offset = limit * page
     return db.GqlQuery("SELECT * FROM Entry WHERE enabled = TRUE ORDER BY created DESC LIMIT %d OFFSET %d" %(limit, offset))
 
+def get_posts_count_by_category(*args):
+    l = []
+    for c in args:
+        l.append((db.Query(Entry).filter('category =', c).count()))
+    return l
+
 def get_admin_entries():
     return db.GqlQuery("SELECT * FROM Entry ORDER BY created DESC LIMIT 10")
 
