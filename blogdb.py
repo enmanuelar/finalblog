@@ -34,7 +34,7 @@ def get_posts_count_by_category(*args):
     return l
 
 def get_admin_entries():
-    return db.GqlQuery("SELECT * FROM Entry ORDER BY created DESC LIMIT 10")
+    return db.GqlQuery("SELECT * FROM Entry ORDER BY created DESC")
 
 def get_comments(post_id):
     return db.GqlQuery("SELECT * FROM Comments WHERE post_id = %d ORDER BY created DESC" % (post_id))

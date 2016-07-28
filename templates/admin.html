@@ -28,25 +28,27 @@
         <h2>Manage posts</h2>
     </div>
     <div class="col-md-12">
-        <ul id="manage-post-list list-group">
-            {% for post in posts %}
-            <li class="admin-post-list list-group-item"><a  href="/{{post.key().id()}}">{{ post.title }}</a>
-                <div class="btn-group adm-manage-post-btn">
-                    <form action="/edit" method="get">
-                        <input type="hidden" class="enable-disable-post-id" value="{{ post.key().id() }}">
-                        <button type="submit" class="btn btn-primary edit-admin-btn" name="post_id" value="{{ post.key().id() }}" formaction="/edit" formmethod="get">Edit</button>
+        <nav class="manage-posts-nav">
+            <ul id="manage-post-list list-group">
+                {% for post in posts %}
+                <li class="admin-post-list list-group-item"><a  href="/{{post.key().id()}}">{{ post.title }}</a>
+                    <div class="btn-group adm-manage-post-btn">
+                        <form action="/edit" method="get">
+                            <input type="hidden" class="enable-disable-post-id" value="{{ post.key().id() }}">
+                            <button type="submit" class="btn btn-primary edit-admin-btn" name="post_id" value="{{ post.key().id() }}" formaction="/edit" formmethod="get">Edit</button>
 
-                        {% if post.enabled %}
-                            <button type="button" class="btn btn-default disable-admin-btn">Disable</button>
-                        {% else %}
-                            <button type="button" class="btn btn-default disable-admin-btn">Enable</button>
-                    {% endif %}
-                    </form>
-                </div>
-                <span  class="admin-posted-by"><em>posted by {{ post.user }}</em></span>
-            </li>
-            {% endfor %}
-        </ul>
+                            {% if post.enabled %}
+                                <button type="button" class="btn btn-default disable-admin-btn">Disable</button>
+                            {% else %}
+                                <button type="button" class="btn btn-default disable-admin-btn">Enable</button>
+                        {% endif %}
+                        </form>
+                    </div>
+                    <span  class="admin-posted-by"><em>posted by {{ post.user }}</em></span>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
     </div>
 </div>
 <div class="row top-posts-tags">

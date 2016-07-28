@@ -204,6 +204,16 @@ canvas{
     border-top: solid 1px;
 }
 
+.manage-posts-nav, .admin-post-list{
+    max-height: 280px;
+    width: 100%;
+}
+
+.manage-posts-nav{
+    overflow:hidden;
+    overflow-y:scroll;
+}
+
 .admin-post-list{
     font-size: 18px;
     font-weight: normal;
