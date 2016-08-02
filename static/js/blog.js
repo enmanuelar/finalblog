@@ -169,7 +169,7 @@ switch (window.location.pathname){
                     $(".load-more-btn").hide();
                 }else {
                     $(".posts-wrapper").append(data);
-                    Blog.showMore();
+                    Blog.readMore();
                 }
             });
             $(".ajax-loader-gif").hide();
