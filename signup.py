@@ -3,6 +3,9 @@ from json import JSONEncoder
 import blogdb
 
 class SignupHandler(Handler):
+    def check_user(self, username):
+        return get_from_cache(username) or blogdb.get_user(username)
+
     @check_auth
     def get(self, **kwargs):
         self.render("signup.html", user_logged=kwargs['user_logged'])
@@ -12,7 +15,7 @@ class SignupHandler(Handler):
         password = self.request.get("password")
         email = self.request.get("email")
         validation = self.request.get("validation")
-        if get_from_cache(username) and validation == "true":
+        if self.check_user(username) and validation == "true":
             response = JSONEncoder().encode({"status": False})
             self.response.out.write(response)
         else:
